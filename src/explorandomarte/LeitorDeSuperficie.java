@@ -15,13 +15,23 @@ import java.util.regex.Pattern;
  * @author andre
  */ 
 public class LeitorDeSuperficie {
+    
+    List <Sonda> sondas = new ArrayList<>();
+
+    public List<Sonda> getSondas() {
+        return sondas;
+    }
     Planalto planalto;
+    
 
     public LeitorDeSuperficie(int x, int y) {
         Coordenadas limite = new Coordenadas(x, y);
         this.planalto = new Planalto(limite);
     }
-    List <Sonda> sondas = new ArrayList<>();
+
+    public void setPlanalto(Planalto planalto) {
+        this.planalto = planalto;
+    }
     
     public void addSonda(Sonda sonda){
         this.sondas.add(sonda);
@@ -51,7 +61,7 @@ public class LeitorDeSuperficie {
             direcao =  sondaMatcher.group(5).charAt(0);
             
             Coordenadas coordenadas = new Coordenadas(dX, dY);
-            Sonda sonda = new Sonda(coordenadas, direcao);
+            Sonda sonda = new Sonda(coordenadas, this.planalto.getLimite(), direcao);
             this.addSonda(sonda);
 
         }
@@ -59,13 +69,18 @@ public class LeitorDeSuperficie {
         Pattern movimentoPattern = Pattern.compile("([lrmLRM])");
         Matcher movimentoMatcher = movimentoPattern.matcher(comando);
         
-        Sonda sonda = this.getSonda();
+       
         
-        if(movimentoMatcher.matches()){
+        if(movimentoMatcher.find()){
+            Sonda sonda = this.getSonda();
             
+            System.out.println("comando: "+ comando);
+            
+             
             for(int pos = 0; pos < comando.length(); ++pos){
                 char c = comando.charAt(pos);
                 sonda.comando(c);
+                
                 
             }
         }

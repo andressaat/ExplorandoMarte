@@ -5,6 +5,8 @@
  */
 package explorandomarte;
 
+import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,27 +15,65 @@ import java.util.regex.Pattern;
  * @author andre
  */
 public class ExplorandoMarte {
-
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        //System.out.print("ola");
-        Pattern pattern = Pattern.compile("([0-9])(\\s)*?([0-9])(\\s)*?([neswNESW])");
-        Matcher matcher = pattern.matcher("23s");
+        LeitorDeSuperficie leitorDeSuperficie = new LeitorDeSuperficie(0, 0);
+        Scanner ss = new Scanner(System.in);
+        System.out.print("Enter the your Name : ");
+             
+        //String comando = ss.nextLine(); 
         
-        while(matcher.find()){
-            //System.out.println("grupo: " + matcher.find());
+        
+                
+        int dX;
+        int dY;
+        
+        while(ss.hasNext()) {
             
-            System.out.println("grupo 0: " + matcher.group(0));
-            System.out.println("grupo 1: " + matcher.group(1));
-            System.out.println("grupo 2: " + matcher.group(2));
-            System.out.println("grupo 3: " + matcher.group(3));
-            System.out.println("grupo 4: " + matcher.group(4));
-            System.out.println("grupo 5: " + matcher.group(5));
+            String comando = ss.nextLine();
+           
+            if(comando.equals("exit")) {
+                
+                break;
+            }
+            
+            Pattern posicaoPattern = Pattern.compile("(^[0-9]{2})$");
+            Matcher posicaoMatcher = posicaoPattern.matcher(comando);
+            
+            while(posicaoMatcher.find()){
+                String coordenadas = posicaoMatcher.group(1);
+                dX = Character.getNumericValue(coordenadas.charAt(0));
+                dY = Character.getNumericValue(coordenadas.charAt(1));
+            
+            
+                System.out.println("dx: "+ dX);
+                System.out.println("dy: "+ dY);
+                
+            
+                Coordenadas limite = new Coordenadas(dX, dY);
+       
+            
+                leitorDeSuperficie.setPlanalto(new Planalto(limite));
+               // ss.next();
+               // return;
 
+            }
+        
+                leitorDeSuperficie.scan(comando);
+        
+                //ss.next();
         }
+        
+                List <Sonda> sondas = leitorDeSuperficie.getSondas();
+                
+                for (int i = 0; i < sondas.size(); i++) {
+                    Sonda sonda = sondas.get(i);
+                    System.out.println(""+sonda.coordenadas.getX()+""+sonda.coordenadas.getY()+""+sonda.direcao+"");
+                }
+    //operate
     }
-    
+   
 }

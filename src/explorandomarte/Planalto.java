@@ -14,10 +14,14 @@ import java.util.ArrayList;
  * @author andre
  */
 public class Planalto {
-    Coordenadas limite1;
+    private Coordenadas limite;
 
-    public Planalto(Coordenadas limite1) {
-        this.limite1 = limite1;
+    public Coordenadas getLimite() {
+        return limite;
+    }
+
+    public Planalto(Coordenadas limite) {
+        this.limite = limite ;
     }
    
 }
