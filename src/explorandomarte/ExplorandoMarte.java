@@ -22,7 +22,7 @@ public class ExplorandoMarte {
     public static void main(String[] args) {
         LeitorDeSuperficie leitorDeSuperficie = new LeitorDeSuperficie(0, 0);
         Scanner ss = new Scanner(System.in);
-        System.out.print("Enter the your Name : ");
+        // System.out.print("Enter the your Name : ");
              
         //String comando = ss.nextLine(); 
         
@@ -40,17 +40,17 @@ public class ExplorandoMarte {
                 break;
             }
             
-            Pattern posicaoPattern = Pattern.compile("(^[0-9]{2})$");
+            Pattern posicaoPattern = Pattern.compile("^([0-9]{1})(\\s)*?([0-9]{1})$");
             Matcher posicaoMatcher = posicaoPattern.matcher(comando);
             
             while(posicaoMatcher.find()){
                 String coordenadas = posicaoMatcher.group(1);
-                dX = Character.getNumericValue(coordenadas.charAt(0));
-                dY = Character.getNumericValue(coordenadas.charAt(1));
+                dX = Character.getNumericValue(posicaoMatcher.group(1).charAt(0));
+                dY = Character.getNumericValue(posicaoMatcher.group(3).charAt(0));
             
             
-                System.out.println("dx: "+ dX);
-                System.out.println("dy: "+ dY);
+                // System.out.println("dx: "+ dX);
+                // System.out.println("dy: "+ dY);
                 
             
                 Coordenadas limite = new Coordenadas(dX, dY);
@@ -61,8 +61,17 @@ public class ExplorandoMarte {
                // return;
 
             }
-        
+
+            try {
+                
                 leitorDeSuperficie.scan(comando);
+
+            } catch (Exception e) {
+                
+                System.out.println("Entrada invalida! " + e.getMessage()+" Tente novamente.");
+                continue;
+            } 
+        
         
                 //ss.next();
         }
@@ -71,7 +80,8 @@ public class ExplorandoMarte {
                 
                 for (int i = 0; i < sondas.size(); i++) {
                     Sonda sonda = sondas.get(i);
-                    System.out.println(""+sonda.coordenadas.getX()+""+sonda.coordenadas.getY()+""+sonda.direcao+"");
+                    System.out
+                    .println("" + sonda.coordenadas.getX() + " " + sonda.coordenadas.getY() + " " + sonda.direcao + "");
                 }
     //operate
     }

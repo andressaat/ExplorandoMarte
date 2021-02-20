@@ -60,6 +60,20 @@ public class LeitorDeSuperficie {
             dY = Integer.parseInt(sondaMatcher.group(3));
             direcao =  sondaMatcher.group(5).charAt(0);
             
+            for (int i = 0; i < this.sondas.size(); i++) {
+                Sonda sonda = sondas.get(i);
+
+                // System.out.println("dX: "+ dX);
+                // System.out.println("dY: "+ dY);
+                // System.out.println("sonda.coordenadas.getX(): "+ sonda.coordenadas.getX());
+                // System.out.println("sonda.coordenadas.getY(): "+ sonda.coordenadas.getY());
+                
+                if(sonda.coordenadas.getX() == dX && sonda.coordenadas.getY() == dY){
+                    throw new IllegalArgumentException("Ja existe uma sonda neste local !!!");
+                }
+
+            }
+
             Coordenadas coordenadas = new Coordenadas(dX, dY);
             Sonda sonda = new Sonda(coordenadas, this.planalto.getLimite(), direcao);
             this.addSonda(sonda);
@@ -73,15 +87,31 @@ public class LeitorDeSuperficie {
         
         if(movimentoMatcher.find()){
             Sonda sonda = this.getSonda();
+
+            int bkpDx = sonda.coordenadas.getX();
+            int bkpDy = sonda.coordenadas.getY();
             
-            System.out.println("comando: "+ comando);
+            // Remove possíveis espaços
+            comando = comando.replaceAll("\\s(?=[lrmLRM])|(?<=\\s)\\s+", "");
             
              
             for(int pos = 0; pos < comando.length(); ++pos){
                 char c = comando.charAt(pos);
                 sonda.comando(c);
+            }
+
+            for (int i = 0; i < this.sondas.size(); i++) {
+                Sonda sondaAtual = sondas.get(i);
                 
-                
+                if(!sondaAtual.equals(sonda) &&
+                   sondaAtual.coordenadas.getX() == sonda.coordenadas.getX() && 
+                   sondaAtual.coordenadas.getY() == sonda.coordenadas.getY()
+                   ){
+                    sonda.coordenadas.setX(bkpDx);
+                    sonda.coordenadas.setY(bkpDy);
+                    throw new IllegalArgumentException("Ja existe uma sonda neste local !!!");
+                }
+
             }
         }
         

@@ -35,15 +35,15 @@ public class Sonda {
         if("LRlr".indexOf(comando)>=0){
             
             // separar as direçoes 
-            // se o comando for L e a direção for igual a N, direção vai pra E
-            // se o comando for L e a direção for igual a E, direção vai pra S
-            // se o comando for L e a direção for igual a S, direção vai pra W
-            // se o comando for L e a direção for igual a W, direção vai pra N
+            // se o comando for R e a direção for igual a N, direção vai pra E
+            // se o comando for R e a direção for igual a E, direção vai pra S
+            // se o comando for R e a direção for igual a S, direção vai pra W
+            // se o comando for R e a direção for igual a W, direção vai pra N
             
-            // se o comando for R e a direção for igual a N, direção vai pra W
-            // se o comando for R e a direção for igual a W, direção vai pra S
-            // se o comando for R e a direção for igual a S, direção vai pra E
-            // se o comando for R e a direção for igual a E, direção vai pra N
+            // se o comando for L e a direção for igual a N, direção vai pra W
+            // se o comando for L e a direção for igual a W, direção vai pra S
+            // se o comando for L e a direção for igual a S, direção vai pra E
+            // se o comando for L e a direção for igual a E, direção vai pra N
             
             //System.out.println("G:comando "+ comando);
             
@@ -51,26 +51,7 @@ public class Sonda {
             
                 for (Entry<Integer, Character> entry : mapDirecoes.entrySet()) {
                     
-                    System.out.println("A: "+ entry.getValue());
-                    System.out.println("G:comando "+ comando);
-                    if (entry.getValue().equals(comando)) {
-                        
-                        Integer key = entry.getKey();
-                        key += 1;
-  
-                        if(key > 4){
-                           key = 1;
-                        }
-                        
-                        this.direcao = this.mapDirecoes.get(key);
-                        System.out.println("G: "+ this.direcao);
-                    }
-                }
-            }
-            
-            if("Rr".indexOf(comando) >= 0){
-            
-                for (Entry<Integer, Character> entry : mapDirecoes.entrySet()) {
+                    
                     if (entry.getValue().equals(this.direcao)) {
                         
                         Integer key = entry.getKey();
@@ -81,6 +62,26 @@ public class Sonda {
                         }
                         
                         this.direcao = this.mapDirecoes.get(key);
+                        break;
+                    }
+                }
+            }
+            
+            if("Rr".indexOf(comando) >= 0){
+            
+                for (Entry<Integer, Character> entry : mapDirecoes.entrySet()) {
+                    if (entry.getValue().equals(this.direcao)) {
+                        
+                        Integer key = entry.getKey();
+                        key += 1;
+  
+                        if(key > 4){
+                           key = 1;
+                        }
+                        
+                        this.direcao = this.mapDirecoes.get(key);
+                        break;
+                        
                     }
                 }
             }
